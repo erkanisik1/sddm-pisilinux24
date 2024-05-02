@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=sddm-pisilinux24
+Description=sddm-pisilinux24
+Author=erkan isik
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/erkanisik1/sddm-pisilinux24
+Screenshot=bg.jpg
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=sddm-pisilinux24
+Theme-API=2.0
+QtVersion=6
