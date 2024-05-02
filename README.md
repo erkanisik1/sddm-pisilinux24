@@ -1,3 +1,4 @@
-# Pisi GNU/Linux 2.4 Grub2 Themes
-![alt text](https://raw.githubusercontent.com/erkanisik1/Pisilinux2.3.4-Grub2-Themes/main/preview.jpg)
+# sddm-pisilinux24
+Pisi GNU/Llinux 2.4 SDDM theme
 
+![alt text](https://github.com/erkanisik1/pisilinux234-sddm-theme/blob/main/screenshot.jpg)
