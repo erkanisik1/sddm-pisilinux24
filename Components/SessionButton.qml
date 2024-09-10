@@ -7,6 +7,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import Qt5Compat.GraphicalEffects
 
+
+
 Item {
     id: sessionButton
     height: root.font.pointSize
@@ -19,8 +21,6 @@ Item {
 
     ComboBox {
         id: selectSession
-        // important
-        // change also in errorMessage
         height: root.font.pointSize * 2
         hoverEnabled: true
         anchors.left: parent.left
@@ -42,8 +42,22 @@ Item {
         }
 
         model: sessionModel
-        currentIndex: model.lastIndex
+        //currentIndex: model.lastIndex
         textRole: "name"
+
+        Component.onCompleted: {
+            
+            for (var i = 0; i < model.rowCount(); i++) {
+                if (model.data(model.index(i, 0), Qt.UserRole + 4).toLowerCase().includes("x11")) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+            
+            if (currentIndex === -1) {
+                currentIndex = model.lastIndex;
+            }
+        }
 
         delegate: ItemDelegate {
             width: parent.width
