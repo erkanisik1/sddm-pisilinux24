@@ -42,22 +42,8 @@ Item {
         }
 
         model: sessionModel
-        //currentIndex: model.lastIndex
+        currentIndex: model.lastIndex
         textRole: "name"
-
-        Component.onCompleted: {
-            
-            for (var i = 0; i < model.rowCount(); i++) {
-                if (model.data(model.index(i, 0), Qt.UserRole + 4).toLowerCase().includes("x11")) {
-                    currentIndex = i;
-                    break;
-                }
-            }
-            
-            if (currentIndex === -1) {
-                currentIndex = model.lastIndex;
-            }
-        }
 
         delegate: ItemDelegate {
             width: parent.width
