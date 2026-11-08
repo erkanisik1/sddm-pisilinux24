@@ -4,16 +4,17 @@
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
 import QtQuick 2.15
-import QtQuick.Layouts 1.15
 import SddmComponents 2.0 as SDDM
 
-ColumnLayout {
+Item {
     id: formContainer
     SDDM.TextConstants { id: textConstants }
 
-    property int p: config.ScreenPadding == "" ? 0 : config.ScreenPadding
-    property string a: config.FormPosition
     property alias inputField: input
+
+    // Dikey boşlukların tamamı ekran yüksekliğine oranlı hesaplanır.
+    // Böylece düzen her çözünürlükte aynı kalır ve elemanlar üst üste binmez.
+    readonly property real unit: root.height / 100
 
     // Sanal klavye acilirken odagi bir metin alanina geri verir.
     // Aksi halde tus vuruslari hicbir yere iletilmez.
@@ -24,38 +25,46 @@ ColumnLayout {
     Clock {
         id: clock
 
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        // important
-        Layout.preferredHeight: root.height / 3
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+        width: parent.width
+        anchors.top: parent.top
+        anchors.topMargin: formContainer.unit * 4
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
+    // Kullanıcı adı, şifre, oturum seçici ve giriş butonu tek bir blok
+    // halinde dikeyde ortalanır. Sabit yükseklik verilmediği için
+    // çözünürlük değişince taşma olmaz.
     Input {
         id: input
 
-        Layout.alignment: Qt.AlignVCenter
-        Layout.preferredHeight: root.height / 10
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-        Layout.topMargin:  0
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: formContainer.unit * 3
     }
 
-    SystemButtons {
-        id: systemButtons
-
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 5
-        Layout.maximumHeight: root.height / 5
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-
-        exposedSession: input.exposeSession
-    }
-
+    // Sanal klavye butonu, sistem butonlarının hemen üzerinde ve
+    // onlarla aynı sol hizada kalır.
     VirtualKeyboardButton {
         id: virtualKeyboardButton
 
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-        Layout.preferredHeight: root.height / 27
-        Layout.maximumHeight: root.height / 27
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+        height: root.font.pointSize * 2.2
+        anchors.left: parent.left
+        anchors.leftMargin: formContainer.unit
+        anchors.bottom: systemButtons.top
+        anchors.bottomMargin: formContainer.unit * 1.5
+    }
+
+    // Shutdown / Reboot / Suspend / Hibernate formun sol alt köşesine
+    // (FormPosition "left" iken ekranın sol altına) sabitlenir.
+    SystemButtons {
+        id: systemButtons
+
+        width: parent.width
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: formContainer.unit * 2
+        anchors.leftMargin: formContainer.unit
+
+        exposedSession: input.exposeSession
     }
 }

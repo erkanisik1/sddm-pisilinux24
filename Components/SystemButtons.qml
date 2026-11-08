@@ -8,9 +8,8 @@ import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 
 RowLayout {
-
-    spacing: root.font.pointSize
-
+    spacing: 0
+    
     property var shutdown: ["Shutdown", config.TranslateShutdown || textConstants.shutdown, sddm.canPowerOff]
     property var reboot: ["Reboot", config.TranslateReboot || textConstants.reboot, sddm.canReboot]
     property var suspend: ["Suspend", config.TranslateSuspend || textConstants.suspend, sddm.canSuspend]
@@ -24,26 +23,28 @@ RowLayout {
         model: [shutdown, reboot, suspend, hibernate]
 
         RoundButton {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.topMargin: root.font.pointSize * 6.5
+            Layout.alignment: Qt.AlignVCenter
 
-            text: modelData[1]
-            font.pointSize: root.font.pointSize * 0.8
+            padding: 0
+            implicitWidth: icon.width + 10
+            implicitHeight: icon.height + 10
+
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
-            icon.color: config.SystemButtonsIconsColor
-            palette.buttonText: config.SystemButtonsIconsColor
-            display: AbstractButton.TextUnderIcon
-            visible: config.HideSystemButtons != "true" && (config.BypassSystemButtonsChecks == "true" ? 1 : modelData[2])
+
             hoverEnabled: true
+            ToolTip {
+                visible: parent.hovered
+                delay: 300
+                text: modelData[1]
+            }
 
             background: Rectangle {
-                height: 2
-                width: parent.width
-
                 color: "transparent"
+                
             }
+
 
             Keys.onReturnPressed: clicked()
             onClicked: {
@@ -58,8 +59,9 @@ RowLayout {
                     when: parent.children[index].down
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.buttonText
-                        palette.buttonText: Qt.darker(root.palette.buttonText, 1.1)
+                        // icon.color: "white"
+                        
+                        // palette.buttonText: Qt.darker(root.palette.buttonText, 1.1)
                     }
                 },
                 State {
@@ -67,8 +69,8 @@ RowLayout {
                     when: parent.children[index].hovered
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.buttonText
-                        palette.buttonText: Qt.lighter(root.palette.buttonText, 1.1)
+                        // icon.color: "white"
+                        // palette.buttonText: Qt.lighter(root.palette.buttonText, 1.1)
                     }
                 },
                 State {
@@ -76,8 +78,8 @@ RowLayout {
                     when: parent.children[index].activeFocus
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.buttonText
-                        palette.buttonText: root.palette.buttonText
+                        // icon.color: "white"
+                        // palette.buttonText: root.palette.buttonText
                     }
                 }
             ]
@@ -93,5 +95,5 @@ RowLayout {
         }
 
     }
-
+    Item { Layout.fillWidth: true }
 }

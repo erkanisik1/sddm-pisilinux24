@@ -14,9 +14,9 @@ import "Components"
 Pane {
     id: root
 
-    height: config.ScreenHeight || Screen.height
-    width: config.ScreenWidth || Screen.ScreenWidth
-    padding: config.ScreenPadding
+    height: parseInt(config.ScreenHeight) || Screen.height
+    width: parseInt(config.ScreenWidth) || Screen.width
+    padding: parseInt(config.ScreenPadding) || 0
 
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
@@ -27,7 +27,11 @@ Pane {
     palette.buttonText: config.HoverSystemButtonsIconsColor
 
     font.family: config.Font
-    font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
+    // FontSize boş bırakıldığında ekran yüksekliğine göre ölçeklenir.
+    // Alt sınır, çok küçük çözünürlüklerde okunabilirliği korur.
+    font.pointSize: parseFloat(config.FontSize) > 0 ?
+                    parseFloat(config.FontSize) :
+                    Math.max(9, Math.round(height / 80))
 
     focus: true
 
@@ -85,7 +89,9 @@ Pane {
             id: form
 
             height: parent.height
-            width: parent.width / 4.0
+            // Form genişliği ekran genişliğiyle ölçeklenir; küçük ekranlarda
+            // okunabilir bir alt sınır, büyük ekranlarda ise üst sınır uygulanır.
+            width: Math.min(parent.width, Math.min(Math.max(parent.width * 0.28, 280), 460))
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
             anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined

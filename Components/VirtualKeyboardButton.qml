@@ -9,7 +9,7 @@ Item {
     Button {
         id: virtualKeyboardButton
 
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
         z: 1
 
         focusPolicy: Qt.NoFocus

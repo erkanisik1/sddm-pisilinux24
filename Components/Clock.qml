@@ -9,7 +9,7 @@ import QtQuick.Controls 2.15
 Column {
     id: clock
 
-    width: parent.width / 2
+    width: parent.width
     spacing: 0
 
     Label {

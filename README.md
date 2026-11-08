@@ -90,6 +90,8 @@ Tüm görünüm ayarları kök dizindeki [pisi.conf](./pisi.conf) dosyasında bu
 
 - **Arka plan:** `Background="Backgrounds/pisi.jpg"`
 - **Renkler:** giriş alanları, butonlar, oturum seçici ve açılır liste renkleri
+- **Ölçekleme:** Ekran boyutu `ScreenWidth`, `ScreenHeight` ve yazı boyutu `FontSize` ile sabitlenebilir. Bu üç değer boş bırakıldığında tema, gerçek ekran çözünürlüğüne göre kendini ölçekler; küçük ekranlarda düzen bozulmaz.
+- **Sistem butonları:** Shutdown / Reboot / Suspend / Hibernate butonları formun sol altına sabitlenir (`FormPosition="left"` iken ekranın sol altı). Arka plan rengi `SystemButtonsBackgroundColor` ile ayarlanır.
 - **Form konumu:** `FormPosition="left"` (left, center, right)
 - **Bulanıklık:** `PartialBlur`, `FullBlur`, `Blur`, `BlurMax`
 - **Davranış:** `HideLoginButton`, `HideSystemButtons`, `PasswordFocus`, `UseRealName`
